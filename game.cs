@@ -39,7 +39,7 @@ namespace ProGrafica
 
             cuarto.translate(1.0, 2.0, 0.0);
             cuarto.scale(1.3f);
-            cuarto.rotate("x", 45.0f);
+            //cuarto.rotate("z", 45.0f);
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
             GL.Enable(EnableCap.DepthTest);
