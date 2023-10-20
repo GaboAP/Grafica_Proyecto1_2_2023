@@ -1,0 +1,124 @@
+           auto = new Objeto(0.0, 2.0, 0.0);
+            pared = new Objeto(0.0, 2.0, 0.0);
+            repisa = new Objeto(0.0, 2.0, 0.0);
+
+            Color colorCelestevidrio = Color.FromArgb(1, 168, 204, 215);
+            Poligono vidrioDelantero = new Poligono(colorCelestevidrio);
+            vidrioDelantero.addVertice(-0.4f, 0.5f, 1.5f);
+            vidrioDelantero.addVertice(-0.4f, 0.75f, 1.25f);
+            vidrioDelantero.addVertice(-0.2f, 0.75f, 1.25f);
+            vidrioDelantero.addVertice(-0.2f, 0.5f, 1.5f);
+            Poligono vidrioTrasero = new Poligono(colorCelestevidrio);
+            vidrioTrasero.addVertice(-0.4f, 0.75f, 0.75f);
+            vidrioTrasero.addVertice(-0.4f, 0.5f, 0.5f);
+            vidrioTrasero.addVertice(-0.2f, 0.5f, 0.5f);
+            vidrioTrasero.addVertice(-0.2f, 0.75f, 0.75f);
+            Color rojoAuto = Color.FromArgb(1, 170, 51, 51);
+            Poligono techo = new Poligono(rojoAuto);
+            techo.addVertice(-0.4f, 0.75f, 0.75f);
+            techo.addVertice(-0.4f, 0.75f, 1.25f);
+            techo.addVertice(-0.2f, 0.75f, 1.25f);
+            techo.addVertice(-0.2f, 0.75f, 0.75f);
+            Poligono cabinaIzq = new Poligono(rojoAuto);
+            cabinaIzq.addVertice(-0.4f, 0.75f, 1.25f);
+            cabinaIzq.addVertice(-0.4f, 0.5f, 1.5f);
+            cabinaIzq.addVertice(-0.4f, 0.5f, 0.5f);
+            cabinaIzq.addVertice(-0.4f, 0.75f, 0.75f);
+            Poligono cabinaDer = new Poligono(rojoAuto);
+            cabinaDer.addVertice(-0.2f, 0.75f, 1.25f);
+            cabinaDer.addVertice(-0.2f, 0.5f, 1.5f);
+            cabinaDer.addVertice(-0.2f, 0.5f, 0.5f);
+            cabinaDer.addVertice(-0.2f, 0.75f, 0.75f);
+            Poligono parachoquesDelantero= new Poligono(rojoAuto);
+            parachoquesDelantero.addVertice(-0.40f, 0.5f, 1.5f);
+            parachoquesDelantero.addVertice(-0.40f, 0.2f, 1.5f);
+            parachoquesDelantero.addVertice(-0.20f, 0.2f, 1.5f);
+            parachoquesDelantero.addVertice(-0.20f, 0.5f, 1.5f);
+            Poligono puertasIzq= new Poligono(rojoAuto);
+            puertasIzq.addVertice(-0.40f, 0.5f, 1.5f);
+            puertasIzq.addVertice(-0.40f, 0.2f, 1.5f);
+            puertasIzq.addVertice(-0.40f, 0.2f, 0.5f);
+            puertasIzq.addVertice(-0.40f, 0.5f, 0.5f);
+            Poligono puertasTraseras= new Poligono(rojoAuto);
+            puertasTraseras.addVertice(-0.40f, 0.5f, 0.5f);
+            puertasTraseras.addVertice(-0.40f, 0.2f, 0.5f);
+            puertasTraseras.addVertice(-0.20f, 0.2f, 0.5f);
+            puertasTraseras.addVertice(-0.20f, 0.5f, 0.5f);
+            Poligono puertasDer= new Poligono(rojoAuto);
+            puertasDer.addVertice(-0.20f, 0.5f, 1.5f);
+            puertasDer.addVertice(-0.20f, 0.2f, 1.5f);
+            puertasDer.addVertice(-0.20f, 0.2f, 0.5f);
+            puertasDer.addVertice(-0.20f, 0.5f, 0.5f);
+
+            Partes chasisAuto = new Partes();
+            chasisAuto.addPoligono("vidrioDelantero",vidrioDelantero);
+            chasisAuto.addPoligono("vidrioTrasero", vidrioTrasero);
+            chasisAuto.addPoligono("Techo", techo);
+            chasisAuto.addPoligono("CabinaIzquierda",cabinaIzq);
+            chasisAuto.addPoligono("CabinaDerecha",cabinaDer);
+            chasisAuto.addPoligono("ParachoquesDelantero", parachoquesDelantero);
+            chasisAuto.addPoligono("PuertaIzquierda",puertasIzq);
+            chasisAuto.addPoligono("PuertaTrasera", puertasTraseras);
+            chasisAuto.addPoligono("PuertaDerecha",puertasDer);
+
+            Poligono ruedaPiloto = new Poligono(rojoAuto, 0.15, new Vector3d(-0.41f, 0.25f, 0.8f));
+            Poligono ruedaCopiloto = new Poligono(rojoAuto, 0.15, new Vector3d(-0.19f,0.25f,0.8f));
+            Poligono ruedaPilotoBack = new Poligono(rojoAuto, 0.15, new Vector3d(-0.19f,0.25f,1.2f));
+            Poligono ruedaCopilotoBack = new Poligono(rojoAuto, 0.15, new Vector3d(-0.41f,0.25f,1.2f));
+
+            Partes rueda1 = new Partes(); rueda1.addPoligono("Rueda1", ruedaPiloto);
+            Partes rueda2 = new Partes(); rueda2.addPoligono("Rueda2", ruedaCopiloto);
+            Partes rueda3=new Partes(); rueda3.addPoligono("Rueda3", ruedaPilotoBack);
+            Partes rueda4 = new Partes(); rueda4.addPoligono("Rueda4",ruedaCopilotoBack);
+            auto.addParte("Chasis", chasisAuto);
+            auto.addParte("RuedaDelPiloto", rueda1);
+            auto.addParte("RuedaDelCopiloto",rueda2);
+            auto.addParte("RuedaAtrasDelPiloto",rueda3);
+            auto.addParte("RuedaAtrasDelCopiloto",rueda4);
+
+            //PARED
+            Color colorPared = Color.FromArgb(1, 255, 255, 204);
+            Poligono paredpoly = new Poligono(colorPared);
+            paredpoly.addVertice(-2.0f, -2.0f, 0.0f);
+            paredpoly.addVertice(2.0f, -2.0f, 0.0f);
+            paredpoly.addVertice(2.0f, 2.0f, 0.0f);
+            paredpoly.addVertice(-2.0f, 2.0f, 0.0f);
+            Partes paredPart = new Partes(); paredPart.addPoligono("CaraDeLaPared", paredpoly);
+
+            pared.addParte("ParteDeLaPared", paredPart);
+
+            //REPISA
+            Color colorRepisa = Color.FromArgb(101, 56, 24);
+            Poligono plataformaRepisa = new Poligono(colorRepisa);
+            plataformaRepisa.addVertice(-1.0, 0.04, 0.01);
+            plataformaRepisa.addVertice(-1.0, 0.04, 2.0);
+            plataformaRepisa.addVertice(1.0, 0.04, 2.0);
+            plataformaRepisa.addVertice(1.0, 0.04, 0.01);
+            Poligono repisaIzq = new Poligono(colorRepisa);
+            repisaIzq.addVertice(-1.0, 0.04, 0.01);
+            repisaIzq.addVertice(-1.0, -0.04, 0.01);
+            repisaIzq.addVertice(-1.0, -0.04, 2.0);
+            repisaIzq.addVertice(-1.0, 0.04, 2.0);
+            Poligono repisaDer = new Poligono(colorRepisa);
+            repisaDer.addVertice(1.0, 0.04, 0.01);
+            repisaDer.addVertice(1.0, -0.04, 0.01);
+            repisaDer.addVertice(1.0, -0.04, 2.0);
+            repisaDer.addVertice(1.0, 0.04, 2.0);
+            Poligono repisaFront = new Poligono(colorRepisa);
+            repisaFront.addVertice(-1.0, 0.04, 2.0);
+            repisaFront.addVertice(-1.0, -0.04, 2.0);
+            repisaFront.addVertice(1.0, -0.04, 2.0);
+            repisaFront.addVertice(1.0, 0.04, 2.0);
+
+            Partes repisaPart = new Partes();
+            repisaPart.addPoligono("Plataforma", plataformaRepisa);
+            repisaPart.addPoligono("LadoIzquierdo",repisaIzq);
+            repisaPart.addPoligono("LadoDerecho",repisaDer);
+            repisaPart.addPoligono("LadoFrontal",repisaFront);
+            
+            repisa.addParte("ParteRepisa", repisaPart);
+
+            cuarto = new Escena(0.0, 0.0, 0.0);
+            cuarto.addObjeto("Repisa", repisa);
+            cuarto.addObjeto("Pared", pared);
+            cuarto.addObjeto("Auto", auto);

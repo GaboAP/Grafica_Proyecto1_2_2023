@@ -10,11 +10,11 @@ using System.Drawing;
 
 namespace ProGrafica
 {
-    class game:GameWindow
+    class game : GameWindow
     {
         private Double theta = 0;
-        Cuarto cuartito;
-        Cuarto cuartito2;
+        Escena cuarto;
+
         public void thetaInc()
         {
             if (theta == 360)
@@ -26,24 +26,24 @@ namespace ProGrafica
                 theta += 1;
             }
         }
-        public game(int widht, int height, string title):base(widht, height, GraphicsMode.Default, title)
+        public game(int widht, int height, string title) : base(widht, height, GraphicsMode.Default, title)
         {
         }
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            cuartito = new Cuarto(5.0, -2.0, 0.0);
-            cuartito2 = new Cuarto(-5.0, 2.0, -2.0);
-
+            cuarto = JSON.Load<Escena>("Escena\\cuarto.txt");
+            cuarto.translate(1.0, 2.0, 0.0);
+            cuarto.scale(1.3f);
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-            //Code goes here
             GL.Enable(EnableCap.DepthTest);
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
+
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -56,8 +56,7 @@ namespace ProGrafica
             
             thetaInc();
 
-            cuartito.dibujarCuarto();
-            cuartito2.dibujarCuarto();
+            cuarto.draw();
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);
@@ -65,7 +64,7 @@ namespace ProGrafica
 
         protected override void OnResize(EventArgs e)
         {
-            Double escala = 8.0;
+            Double escala = 6.0;
             GL.Viewport(0, 0, Width, Height);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
