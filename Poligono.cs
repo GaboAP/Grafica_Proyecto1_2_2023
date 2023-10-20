@@ -62,12 +62,6 @@ namespace ProGrafica
         public void draw(Point centroObj, Point centroScene, Point centroPart)
         {
             Point centroResto = centroObj + centroScene + centroPart;
-            if (radius > 0)
-            {
-                drawCircle(centroResto, 90);
-            }
-            else
-            {
                 GL.Begin(PrimitiveType.Polygon);
                 GL.Color3(color);
                 foreach (Point v in vertices)
@@ -77,36 +71,6 @@ namespace ProGrafica
                     GL.Vertex3(vertexToDraw.X, vertexToDraw.Y, vertexToDraw.Z);
                 }
                 GL.End();
-            }
-        }
-        public void drawCircle(Point centroResto, double rotationAngleDegrees)
-        {
-            GL.PushMatrix(); // Save the current modelview matrix
-            //GL.Scale()
-            GL.Translate(centroC.X + centroResto.X + traslacion.X,
-                        centroC.Y + centroResto.Y + traslacion.Y,
-                        centroC.Z + centroResto.Z + traslacion.Z);
-            GL.Rotate(rotationAngleDegrees, 0.0, 1.0, 0.0); // Apply the rotation to the circle
-
-            GL.Begin(PrimitiveType.Polygon);
-            int numSegments = 180;
-
-            GL.Color4(Color.Yellow);
-
-            for (int i = 0; i < numSegments; i++)
-            {
-                double angle = 2 * Math.PI * i / numSegments;
-                double xPos = radius * Math.Cos(angle);
-                double yPos = radius * Math.Sin(angle);
-                Point vertexToDraw=new Point(xPos, yPos,0);
-                vertexToDraw *=transformacion;
-
-                GL.Vertex3(vertexToDraw.X, vertexToDraw.Y, vertexToDraw.Z);
-            }
-
-            GL.End();
-
-            GL.PopMatrix(); // Restore the previous modelview matrix
         }
         public void translate(double x, double y, double z)
         {
@@ -116,6 +80,26 @@ namespace ProGrafica
         {
             Matrix3 escalar = Matrix3.CreateScale(scaleValue);
             this.transformacion*=escalar;
+        }
+        public void rotate(string axis,float angle)
+        {
+            Matrix3 rotacion;
+            if (axis=="x")
+            {
+                rotacion = Matrix3.CreateRotationX(angle);
+            }
+            else
+            {
+                if(axis=="y")
+                {
+                    rotacion= Matrix3.CreateRotationY(angle);
+                }
+                else
+                {
+                    rotacion=Matrix3.CreateRotationZ(angle);
+                }
+            }
+            this.transformacion *= rotacion;
         }
     }
 }

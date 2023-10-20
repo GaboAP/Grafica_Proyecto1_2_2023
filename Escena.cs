@@ -85,5 +85,12 @@ namespace ProGrafica
                 objeto.scale(scaleValue);
             }
         }
+        public void rotate(string eje,float angle)
+        {
+            foreach (Objeto objeto in objetos.Values)
+            {
+                objeto.rotate(eje,angle);
+            }
+        }
     }
 }

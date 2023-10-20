@@ -56,5 +56,12 @@ namespace ProGrafica
                 poligono.scale(scaleValue);
             }
         }
+        public void rotate(string eje, float angle)
+        {
+            foreach (Poligono poligono in poligonos.Values)
+            {
+                poligono.rotate(eje,angle);
+            }
+        }
     }
 }
