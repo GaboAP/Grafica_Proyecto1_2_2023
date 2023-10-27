@@ -7,6 +7,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace ProGrafica
 {
@@ -14,7 +15,7 @@ namespace ProGrafica
     {
         private Double theta = 0;
         Escena cuarto;
-
+        Objeto objeto;
 
         public void thetaInc()
         {
@@ -36,10 +37,13 @@ namespace ProGrafica
 
             cuarto = JSON.Load<Escena>("Escena\\cuarto.txt");
 
-
-            cuarto.translate(1.0, 2.0, 0.0);
-            cuarto.scale(1.3f);
-            //cuarto.rotate("z", 45.0f);
+            objeto = new Objeto(cuarto.buscarObjeto("Auto"));
+            cuarto.translate(0.0, 5.0, 0.0);
+            objeto.scale(1.5f);
+            objeto.rotate("y", 45.0f);
+            
+            //cuarto.scale(0.5f);
+            //cuarto.rotate("y", 45.0f);
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
             GL.Enable(EnableCap.DepthTest);
@@ -61,6 +65,7 @@ namespace ProGrafica
             thetaInc();
 
             cuarto.draw();
+            objeto.draw();
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);
@@ -68,7 +73,7 @@ namespace ProGrafica
 
         protected override void OnResize(EventArgs e)
         {
-            Double escala = 6.0;
+            Double escala = 7.0;
             GL.Viewport(0, 0, Width, Height);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();

@@ -16,7 +16,6 @@ namespace ProGrafica
             this.Y = y;
             this.Z = z;
         }
-
         public static Point operator +(Point a, Point b) => new Point(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
         public static Point operator -(Point a, Point b) => new Point(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
         public static Point operator *(Point a, Point b) => new Point(a.X * b.X, a.Y * b.Y, a.Z * b.Z);

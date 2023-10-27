@@ -26,7 +26,16 @@ namespace ProGrafica
             this.centro=new Point(x,y,z);
             partes= new Dictionary<string, Partes>();
         }
+        public Objeto(Objeto otroObjeto)
+        {
+            this.centro = new Point(otroObjeto.centro.X, otroObjeto.centro.Y, otroObjeto.centro.Z);
+            this.partes = new Dictionary<string, Partes>();
 
+            foreach (var par in otroObjeto.partes)
+            {
+                this.partes.Add(par.Key, new Partes(par.Value));
+            }
+        }
         public void addParte(string nombre, Partes parte)
         {
             this.partes.Add(nombre, parte);
@@ -35,6 +44,17 @@ namespace ProGrafica
         {
             this.partes.Remove(nombre);
         }
+        public Partes buscarPartes(String nombre)
+        {
+            if (partes.ContainsKey(nombre))
+            {
+                return partes[nombre];
+            }
+            else
+            {
+                return null;
+            }
+        }
         public Double x
         {
             get { return centro.X;}
@@ -42,7 +62,7 @@ namespace ProGrafica
         public Point Centro
         {
             get { return centro; }
-            set { centro = value; }
+            set { this.centro = value; }
         }
         public Double centroY
         {
@@ -52,11 +72,17 @@ namespace ProGrafica
         {
             get { return centro.Z;}
         }
+
+        public void draw()
+        {
+            draw(new Point(0.0,0.0,0.0));
+        }
         public void draw(Point sceneCentre)
         {
+            Point centroObjSce = sceneCentre + this.centro;
             foreach (Partes parte in partes.Values)
             {
-                parte.draw(centro, sceneCentre);
+                parte.draw(centroObjSce);
             }
         }
 

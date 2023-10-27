@@ -51,6 +51,28 @@ namespace ProGrafica
             this.transformacion = Matrix3.Identity;
             this.traslacion = new Point(0.0, 0.0, 0.0);
         }
+        public Poligono(Poligono otroPoligono)
+        {
+            // Copia profunda de la lista de vértices
+            this.vertices = new List<Point>();
+            foreach (Point vertex in otroPoligono.vertices)
+            {
+                this.vertices.Add(new Point(vertex.X, vertex.Y, vertex.Z));
+            }
+
+            // Copia profunda de las demás propiedades
+            this.color = otroPoligono.color;
+            this.radius = otroPoligono.radius;
+
+            // Copia profunda de la propiedad 'centroC'
+            this.centroC = new Point(otroPoligono.centroC.X, otroPoligono.centroC.Y, otroPoligono.centroC.Z);
+
+            // Copia profunda de la propiedad 'transformacion' (asumiendo que es una matriz)
+            this.transformacion = new Matrix3(otroPoligono.transformacion.Row0, otroPoligono.transformacion.Row1, otroPoligono.transformacion.Row2);
+
+            // Copia profunda de la propiedad 'traslacion'
+            this.traslacion = new Point(otroPoligono.traslacion.X, otroPoligono.traslacion.Y, otroPoligono.traslacion.Z);
+        }
         public void addVertice(Double x, Double y, Double z)
         {
             vertices.Add(new Point(x, y, z));
@@ -59,15 +81,19 @@ namespace ProGrafica
         {
             vertices.RemoveAt(index);
         }
-        public void draw(Point centroObj, Point centroScene, Point centroPart)
+        public void draw()
         {
-            Point centroResto = centroObj + centroScene + centroPart;
+            draw(new Point(0.0, 0.0, 0.0));
+        }
+        public void draw(Point centros)
+        {
+            Point centroResto = centros+centroC;
                 GL.Begin(PrimitiveType.Polygon);
                 GL.Color3(color);
                 foreach (Point v in vertices)
                 {
                     Point vertexToDraw = v*transformacion;
-                    vertexToDraw += centroC + centroResto + traslacion;
+                    vertexToDraw += centroResto + traslacion;
                     GL.Vertex3(vertexToDraw.X, vertexToDraw.Y, vertexToDraw.Z);
                 }
                 GL.End();
