@@ -20,6 +20,8 @@ namespace ProGrafica
         private Double radius { get; set; }
         [JsonProperty("centroC")]
         private Point centroC;
+        private Point centroTransformacion;
+        private Point centroAcarreado;
         private Matrix3 transformacion;
         private Point traslacion;
 
@@ -32,7 +34,9 @@ namespace ProGrafica
             this.centroC = new Point(0.0, 0.0, 0.0);
             this.transformacion = Matrix3.Identity;
             this.traslacion = new Point(0.0, 0.0, 0.0);
-        }
+            this.centroTransformacion= new Point(0.0, 0.0, 0.0);
+            this.centroAcarreado= new Point(0.0, 0.0, 0.0); 
+    }
         public Poligono(Color color) {
             vertices = new List<Point>();
             this.color = color;
@@ -40,38 +44,30 @@ namespace ProGrafica
             this.centroC = new Point(0.0, 0.0, 0.0);
             this.transformacion = Matrix3.Identity;
             this.traslacion = new Point(0.0, 0.0, 0.0);
+            this.centroTransformacion = new Point(0.0, 0.0, 0.0);
+            this.centroAcarreado = new Point(0.0, 0.0, 0.0);
         }
 
-        public Poligono(Color color, Double radius, Point centroC) //Constructor para un poligono en caso de que sea un circulo
+        public Poligono(Color color, Point centroC) //Constructor para un poligono en caso de que sea un circulo
         {
             vertices = new List<Point>();
             this.color = color;
-            this.radius = radius;
+            this.radius = 0;
             this.centroC = centroC;
             this.transformacion = Matrix3.Identity;
             this.traslacion = new Point(0.0, 0.0, 0.0);
+            this.centroTransformacion = new Point(0.0, 0.0, 0.0);
+            this.centroAcarreado = new Point(0.0, 0.0, 0.0);
+            setCentroAcarreado(new Point(0.0, 0.0, 0.0));
         }
-        public Poligono(Poligono otroPoligono)
+        public Point CentroC
         {
-            // Copia profunda de la lista de vértices
-            this.vertices = new List<Point>();
-            foreach (Point vertex in otroPoligono.vertices)
-            {
-                this.vertices.Add(new Point(vertex.X, vertex.Y, vertex.Z));
-            }
-
-            // Copia profunda de las demás propiedades
-            this.color = otroPoligono.color;
-            this.radius = otroPoligono.radius;
-
-            // Copia profunda de la propiedad 'centroC'
-            this.centroC = new Point(otroPoligono.centroC.X, otroPoligono.centroC.Y, otroPoligono.centroC.Z);
-
-            // Copia profunda de la propiedad 'transformacion' (asumiendo que es una matriz)
-            this.transformacion = new Matrix3(otroPoligono.transformacion.Row0, otroPoligono.transformacion.Row1, otroPoligono.transformacion.Row2);
-
-            // Copia profunda de la propiedad 'traslacion'
-            this.traslacion = new Point(otroPoligono.traslacion.X, otroPoligono.traslacion.Y, otroPoligono.traslacion.Z);
+            get { return this.centroC; }
+            set { this.centroC = value; }
+        }
+        public void setCentroAcarreado(Point centroAcarreado)
+        {
+            this.centroAcarreado = centroAcarreado;
         }
         public void addVertice(Double x, Double y, Double z)
         {
@@ -80,6 +76,13 @@ namespace ProGrafica
         public void removeVertice(int index)
         {
             vertices.RemoveAt(index);
+        }
+        public void UpdateVertices()
+        {
+                for (int i = 0; i < vertices.Count; i++)
+                {
+                    vertices[i] = new Point(vertices[i].X+traslacion.X, vertices[i].Y+traslacion.Y, vertices[i].Z+traslacion.Z);
+                }
         }
         public void draw()
         {
@@ -92,8 +95,9 @@ namespace ProGrafica
                 GL.Color3(color);
                 foreach (Point v in vertices)
                 {
-                    Point vertexToDraw = v*transformacion;
-                    vertexToDraw += centroResto + traslacion;
+                    Point vertexToDraw = v+centroResto-centroTransformacion;
+                    vertexToDraw *= transformacion;
+                    vertexToDraw +=  traslacion+centroTransformacion;
                     GL.Vertex3(vertexToDraw.X, vertexToDraw.Y, vertexToDraw.Z);
                 }
                 GL.End();
@@ -102,13 +106,21 @@ namespace ProGrafica
         {
             this.traslacion=new Point(x, y, z);
         }
-        public void scale(float scaleValue)
+        public void scale(float scaleValue,Point transformacion)
         {
             Matrix3 escalar = Matrix3.CreateScale(scaleValue);
             this.transformacion*=escalar;
+            this.centroTransformacion = transformacion;
         }
-        public void rotate(string axis,float angle)
+        public void scale(float scaleValue)
         {
+            Matrix3 escalar = Matrix3.CreateScale(scaleValue);
+            this.transformacion *= escalar;
+            this.centroTransformacion = this.centroC+this.centroAcarreado;
+        }
+        public void rotate(string axis,float angle, Point transformacion)
+        {
+            this.centroTransformacion = transformacion;
             Matrix3 rotacion;
             if (axis=="x")
             {
@@ -123,6 +135,27 @@ namespace ProGrafica
                 else
                 {
                     rotacion=Matrix3.CreateRotationZ(angle);
+                }
+            }
+            this.transformacion *= rotacion;
+        }
+        public void rotate(string axis, float angle)
+        {
+            this.centroTransformacion = this.centroC+this.centroAcarreado;
+            Matrix3 rotacion;
+            if (axis == "x")
+            {
+                rotacion = Matrix3.CreateRotationX(angle);
+            }
+            else
+            {
+                if (axis == "y")
+                {
+                    rotacion = Matrix3.CreateRotationY(angle);
+                }
+                else
+                {
+                    rotacion = Matrix3.CreateRotationZ(angle);
                 }
             }
             this.transformacion *= rotacion;

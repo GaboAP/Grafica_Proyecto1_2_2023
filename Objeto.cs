@@ -14,26 +14,28 @@ namespace ProGrafica
         private Dictionary<string, Partes> partes { get; set; }
         [JsonProperty("centro")]
         private Point centro{ get; set; }
+        private Point centroEscenario { get; set; }
 
         public Objeto()
         {
             this.partes = new Dictionary<string, Partes>();
             this.centro = new Point(0.0, 0.0, 0.0);
+            this.centroEscenario= new Point(0.0, 0.0, 0.0);
         }
 
-        public Objeto(Double x, Double y, Double z)
+        public Objeto(Double x, Double y, Double z, Dictionary<string, Partes> partes)
         {
             this.centro=new Point(x,y,z);
-            partes= new Dictionary<string, Partes>();
+            this.partes = partes;
+            this.centroEscenario = new Point(0.0, 0.0, 0.0);
+            setSceneCentro(new Point(0.0, 0.0, 0.0));
         }
-        public Objeto(Objeto otroObjeto)
+        public void setSceneCentro(Point centroEscenario)
         {
-            this.centro = new Point(otroObjeto.centro.X, otroObjeto.centro.Y, otroObjeto.centro.Z);
-            this.partes = new Dictionary<string, Partes>();
-
-            foreach (var par in otroObjeto.partes)
+            this.centroEscenario=centroEscenario;
+            foreach (var parte in partes.Values)
             {
-                this.partes.Add(par.Key, new Partes(par.Value));
+                parte.setCentroResto(this.centro + this.centroEscenario);
             }
         }
         public void addParte(string nombre, Partes parte)
@@ -86,6 +88,13 @@ namespace ProGrafica
             }
         }
 
+        public void UpdateVertices()
+        {
+            foreach (string nombre in partes.Keys)
+            {
+                partes[nombre].UpdateVertices();
+            }
+        }
         internal void translate(double x, double y, double z)
         {
             foreach (Partes parte in partes.Values)
@@ -97,14 +106,28 @@ namespace ProGrafica
         {
             foreach (Partes parte in partes.Values)
             {
-                parte.scale(scaleValue);
+                parte.scale(scaleValue,centro+centroEscenario);
+            }
+        }
+        public void scale(float scaleValue, Point transformacion)
+        {
+            foreach (Partes parte in partes.Values)
+            {
+                parte.scale(scaleValue, transformacion);
             }
         }
         public void rotate(string eje,float angle)
         {
             foreach (Partes parte in partes.Values)
             {
-                parte.rotate(eje,angle);
+                parte.rotate(eje,angle,centro+centroEscenario);
+            }
+        }
+        public void rotate(string eje, float angle,Point transformacion)
+        {
+            foreach (Partes parte in partes.Values)
+            {
+                parte.rotate(eje, angle, transformacion);
             }
         }
     }

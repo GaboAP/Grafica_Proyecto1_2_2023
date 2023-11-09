@@ -20,18 +20,12 @@ namespace ProGrafica
             this.objetos= new Dictionary<string, Objeto>();
             this.centro = new Point(0.0, 0.0, 0.0);
         }
-        public Escena(Double x, Double y, Double z) { 
-            this.objetos = new Dictionary<string, Objeto>();
+        public Escena(Double x, Double y, Double z, Dictionary<string, Objeto> objetos) { 
+            this.objetos = objetos;
             this.centro= new Point(x,y,z);
-        }
-        public Escena(Escena otraEscena)
-        {
-            this.centro = new Point(otraEscena.x, otraEscena.y, otraEscena.z);
-            this.objetos = new Dictionary<string, Objeto>();
-
-            foreach (var par in otraEscena.objetos)
+            foreach (Objeto objeto in objetos.Values)
             {
-                this.objetos.Add(par.Key, new Objeto(par.Value));
+                objeto.setSceneCentro(this.centro);
             }
         }
         public Double x

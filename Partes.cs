@@ -13,34 +13,42 @@ namespace ProGrafica
         [JsonProperty("poligonos")]
         private Dictionary<string, Poligono> poligonos;
         [JsonProperty("centro")]
-        private Point centro; //implementar
+        private Point centro;
+        [JsonProperty("centroResto")]
+        private Point centroResto { get; set; }
 
         public Partes()
         {
             this.poligonos = new Dictionary<string, Poligono>();
             this.centro = new Point(0.0,0.0,0.0);
+            this.centroResto= new Point(0.0, 0.0, 0.0);
         }
-        public Partes(Double x, Double y, Double z)
+        public Partes(Double x, Double y, Double z, Dictionary<string, Poligono> poligonos)
         {
-            poligonos=new Dictionary<string, Poligono>();
+            this.poligonos=poligonos;
             this.centro = new Point(x,y,z);
-        }
-        public Partes(Partes otrasPartes)
-        {
-            // Copia profunda del centro
-            this.centro = new Point(otrasPartes.centro.X, otrasPartes.centro.Y, otrasPartes.centro.Z);
-
-            // Copia profunda de la colección de polígonos
-            this.poligonos = new Dictionary<string, Poligono>();
-            foreach (var par in otrasPartes.poligonos)
-            {
-                this.poligonos.Add(par.Key, new Poligono(par.Value));
-            }
+            this.centroResto = new Point(0.0, 0.0, 0.0);
+            setCentroResto(this.centroResto);
         }
         public Point Centro
         {
             get { return centro; }
             set { this.centro = value; }
+        }
+        public void UpdateVertices()
+        {
+            foreach (string nombre in poligonos.Keys)
+            {
+                poligonos[nombre].UpdateVertices();
+            }
+        }
+        public void setCentroResto(Point centroResto)
+        {
+            this.centroResto = centroResto;
+            foreach (Poligono poligono in poligonos.Values)
+            {
+                poligono.setCentroAcarreado(centroResto + centro);
+            }
         }
         public void addPoligono(string name, Poligono poligono)
         {
@@ -49,6 +57,17 @@ namespace ProGrafica
         public void removePoligono(string name)
         {
             poligonos.Remove(name);
+        }
+        public Poligono buscarPoligono(string nombre)
+        {
+            if (poligonos.ContainsKey(nombre))
+            {
+                return poligonos[nombre];
+            }
+            else
+            {
+                return null;
+            }
         }
         public void draw()
         {
@@ -74,14 +93,28 @@ namespace ProGrafica
         {
             foreach (Poligono poligono in poligonos.Values)
             {
-                poligono.scale(scaleValue);
+                poligono.scale(scaleValue, centro+centroResto);
+            }
+        }
+        public void scale(float scaleValue, Point transformacion)
+        {
+            foreach (Poligono poligono in poligonos.Values)
+            {
+                poligono.scale(scaleValue,transformacion);
             }
         }
         public void rotate(string eje, float angle)
         {
             foreach (Poligono poligono in poligonos.Values)
             {
-                poligono.rotate(eje,angle);
+                poligono.rotate(eje,angle,centro+centroResto);
+            }
+        }
+        public void rotate(string eje, float angle, Point transformacion)
+        {
+            foreach (Poligono poligono in poligonos.Values)
+            {
+                poligono.rotate(eje, angle, transformacion);
             }
         }
     }
