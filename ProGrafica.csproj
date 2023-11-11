@@ -51,17 +51,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acciones.cs" />
     <Compile Include="Axis.cs" />
     <Compile Include="Cuarto.cs" />
+    <Compile Include="Ejecucion.cs" />
     <Compile Include="Escena.cs" />
     <Compile Include="game.cs" />
     <Compile Include="JSON.cs" />
+    <Compile Include="Libreto.cs" />
+    <Compile Include="Matrix.cs" />
     <Compile Include="Objeto.cs" />
     <Compile Include="Partes.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Poligono.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transformacion.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

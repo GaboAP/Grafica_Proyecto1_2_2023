@@ -20,14 +20,14 @@ namespace ProGrafica
         public Partes()
         {
             this.poligonos = new Dictionary<string, Poligono>();
-            this.centro = new Point(0.0,0.0,0.0);
-            this.centroResto= new Point(0.0, 0.0, 0.0);
+            this.centro = new Point(0,0,0);
+            this.centroResto= new Point(0, 0, 0);
         }
-        public Partes(Double x, Double y, Double z, Dictionary<string, Poligono> poligonos)
+        public Partes(Point centro, Dictionary<string, Poligono> poligonos)
         {
             this.poligonos=poligonos;
-            this.centro = new Point(x,y,z);
-            this.centroResto = new Point(0.0, 0.0, 0.0);
+            this.centro = centro;
+            this.centroResto = new Point(0, 0, 0);
             setCentroResto(this.centroResto);
         }
         public Point Centro
@@ -71,7 +71,7 @@ namespace ProGrafica
         }
         public void draw()
         {
-            draw(new Point(0.0, 0.0, 0.0));
+            draw(new Point(0, 0, 0));
         }
         public void draw(Point centroUp)
         {
@@ -82,25 +82,25 @@ namespace ProGrafica
             }
         }
 
-        internal void translate(double x, double y, double z)
+        internal void translate(string eje, float translateValue)
         {
             foreach (Poligono poligono in poligonos.Values)
             {
-                poligono.translate(x, y, z);
+                poligono.translate(eje, translateValue);
             }
         }
-        public void scale(float scaleValue)
+        public void scale(string eje, float scaleValue)
         {
             foreach (Poligono poligono in poligonos.Values)
             {
-                poligono.scale(scaleValue, centro+centroResto);
+                poligono.scale(eje, scaleValue, centro+centroResto);
             }
         }
-        public void scale(float scaleValue, Point transformacion)
+        public void scale(string eje, float scaleValue, Point transformacion)
         {
             foreach (Poligono poligono in poligonos.Values)
             {
-                poligono.scale(scaleValue,transformacion);
+                poligono.scale(eje, scaleValue,transformacion);
             }
         }
         public void rotate(string eje, float angle)
@@ -115,6 +115,14 @@ namespace ProGrafica
             foreach (Poligono poligono in poligonos.Values)
             {
                 poligono.rotate(eje, angle, transformacion);
+            }
+        }
+
+        public void limpiar()
+        {
+            foreach (Poligono poligono in poligonos.Values)
+            {
+                poligono.limpiar();
             }
         }
     }

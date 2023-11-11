@@ -9,8 +9,8 @@ namespace ProGrafica
 {
     class Point
     {
-        public Double X, Y, Z;
-        public Point(Double x, Double y, Double z)
+        public float X, Y, Z;
+        public Point(float x, float y, float z)
         {
             this.X = x;
             this.Y = y;

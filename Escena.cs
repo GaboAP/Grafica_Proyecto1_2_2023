@@ -18,27 +18,27 @@ namespace ProGrafica
 
         public Escena() { 
             this.objetos= new Dictionary<string, Objeto>();
-            this.centro = new Point(0.0, 0.0, 0.0);
+            this.centro = new Point(0, 0, 0);
         }
-        public Escena(Double x, Double y, Double z, Dictionary<string, Objeto> objetos) { 
+        public Escena(Point centro, Dictionary<string, Objeto> objetos) { 
             this.objetos = objetos;
-            this.centro= new Point(x,y,z);
+            this.centro = centro;
             foreach (Objeto objeto in objetos.Values)
             {
                 objeto.setSceneCentro(this.centro);
             }
         }
-        public Double x
+        public float x
         {
             get { return this.centro.X; }
         }
 
-        public Double y
+        public float y
         {
             get { return this.centro.Y; }
         }
 
-        public Double z
+        public float z
         {
             get { return this.centro.Z; }
         }
@@ -75,25 +75,33 @@ namespace ProGrafica
                 objeto.draw(centro);
             }
         }
-        public void translate(double x, double y, double z)
+        public void translate(string eje, float translateValue)
         {
             foreach (Objeto objeto in objetos.Values)
             {
-                objeto.translate(x, y, z);
+                objeto.translate(eje, translateValue);
             }
         }
-        public void scale(float scaleValue)
+        public void scale(string eje, float scaleValue)
         {
             foreach (Objeto objeto in objetos.Values)
             {
-                objeto.scale(scaleValue);
+                objeto.scale(eje, scaleValue);
             }
         }
         public void rotate(string eje,float angle)
         {
             foreach (Objeto objeto in objetos.Values)
             {
-                objeto.rotate(eje,angle);
+                objeto.rotate(eje,angle, this.centro);
+            }
+        }
+
+        public void limpiar()
+        {
+            foreach (Objeto objeto in objetos.Values)
+            {
+                objeto.limpiar();
             }
         }
     }

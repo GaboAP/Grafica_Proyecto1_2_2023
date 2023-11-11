@@ -1,12 +1,9 @@
 ﻿using Newtonsoft.Json;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using System;
+using ProgramacionGrafica;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProGrafica
 {
@@ -16,49 +13,36 @@ namespace ProGrafica
         private List<Point> vertices;
         [JsonProperty("color")]
         private Color color { get; set; }
-        [JsonProperty("radius")]
-        private Double radius { get; set; }
         [JsonProperty("centroC")]
         private Point centroC;
-        private Point centroTransformacion;
         private Point centroAcarreado;
-        private Matrix3 transformacion;
-        private Point traslacion;
+        public Matrix matriz { get; set; }
 
 
         public Poligono()
         {
             vertices = new List<Point>();
             this.color = new Color();
-            this.radius = 0;
-            this.centroC = new Point(0.0, 0.0, 0.0);
-            this.transformacion = Matrix3.Identity;
-            this.traslacion = new Point(0.0, 0.0, 0.0);
-            this.centroTransformacion= new Point(0.0, 0.0, 0.0);
-            this.centroAcarreado= new Point(0.0, 0.0, 0.0); 
+            this.centroC = new Point(0, 0, 0);
+            this.centroAcarreado= new Point(0, 0, 0);
+            this.matriz = new Matrix(centroC);
     }
         public Poligono(Color color) {
             vertices = new List<Point>();
             this.color = color;
-            this.radius = 0;
-            this.centroC = new Point(0.0, 0.0, 0.0);
-            this.transformacion = Matrix3.Identity;
-            this.traslacion = new Point(0.0, 0.0, 0.0);
-            this.centroTransformacion = new Point(0.0, 0.0, 0.0);
-            this.centroAcarreado = new Point(0.0, 0.0, 0.0);
+            this.centroC = new Point(0, 0, 0);
+            this.centroAcarreado = new Point(0, 0, 0);
+            this.matriz = new Matrix(centroC);
         }
 
         public Poligono(Color color, Point centroC) //Constructor para un poligono en caso de que sea un circulo
         {
             vertices = new List<Point>();
             this.color = color;
-            this.radius = 0;
             this.centroC = centroC;
-            this.transformacion = Matrix3.Identity;
-            this.traslacion = new Point(0.0, 0.0, 0.0);
-            this.centroTransformacion = new Point(0.0, 0.0, 0.0);
-            this.centroAcarreado = new Point(0.0, 0.0, 0.0);
-            setCentroAcarreado(new Point(0.0, 0.0, 0.0));
+            this.centroAcarreado = new Point(0, 0, 0);
+            this.matriz = new Matrix(centroC);
+            setCentroAcarreado(new Point(0, 0, 0));
         }
         public Point CentroC
         {
@@ -67,9 +51,10 @@ namespace ProGrafica
         }
         public void setCentroAcarreado(Point centroAcarreado)
         {
-            this.centroAcarreado = centroAcarreado;
+            this.centroAcarreado = centroAcarreado + centroC;
+            this.matriz.SetCentro(this.centroAcarreado.X, this.centroAcarreado.Y, this.centroAcarreado.Z);
         }
-        public void addVertice(Double x, Double y, Double z)
+        public void addVertice(float x, float y, float z)
         {
             vertices.Add(new Point(x, y, z));
         }
@@ -81,12 +66,12 @@ namespace ProGrafica
         {
                 for (int i = 0; i < vertices.Count; i++)
                 {
-                    vertices[i] = new Point(vertices[i].X+traslacion.X, vertices[i].Y+traslacion.Y, vertices[i].Z+traslacion.Z);
+                    vertices[i] = new Point(vertices[i].X, vertices[i].Y, vertices[i].Z);
                 }
         }
         public void draw()
         {
-            draw(new Point(0.0, 0.0, 0.0));
+            draw(new Point(0, 0, 0));
         }
         public void draw(Point centros)
         {
@@ -95,70 +80,98 @@ namespace ProGrafica
                 GL.Color3(color);
                 foreach (Point v in vertices)
                 {
-                    Point vertexToDraw = v+centroResto-centroTransformacion;
-                    vertexToDraw *= transformacion;
-                    vertexToDraw +=  traslacion+centroTransformacion;
+                    Point vertexToDraw = v;
+                    vertexToDraw *= matriz.GetMatrix();
                     GL.Vertex3(vertexToDraw.X, vertexToDraw.Y, vertexToDraw.Z);
                 }
                 GL.End();
         }
-        public void translate(double x, double y, double z)
+        public void translate(string axis, float transaleValue)
         {
-            this.traslacion=new Point(x, y, z);
+            switch (axis)
+            {
+                case "x":
+                    this.matriz.SetTraslacion(transaleValue, 0, 0);
+                    break;
+                case "y":
+                    this.matriz.SetTraslacion(0, transaleValue, 0);
+                    break;
+                case "z":
+                    this.matriz.SetTraslacion(0, 0, transaleValue);
+                    break;
+            }
         }
-        public void scale(float scaleValue,Point transformacion)
+        public void scale(string axis, float scaleValue,Point transformacion)
         {
-            Matrix3 escalar = Matrix3.CreateScale(scaleValue);
-            this.transformacion*=escalar;
-            this.centroTransformacion = transformacion;
+            this.matriz.SetCentroAcarreado(transformacion.X, transformacion.Y, transformacion.Z);
+            switch (axis)
+            {
+                case "x":
+                    this.matriz.SetEscalacion(scaleValue, 0, 0);
+                    break;
+                case "y":
+                    this.matriz.SetEscalacion(0, scaleValue, 0);
+                    break;
+                case "z":
+                    this.matriz.SetEscalacion(0, 0, scaleValue);
+                    break;
+            }
+
         }
-        public void scale(float scaleValue)
+        public void scale(string axis, float scaleValue)
         {
-            Matrix3 escalar = Matrix3.CreateScale(scaleValue);
-            this.transformacion *= escalar;
-            this.centroTransformacion = this.centroC+this.centroAcarreado;
+            this.matriz.SetCentroAcarreado(centroAcarreado.X, centroAcarreado.Y, centroAcarreado.Z);
+            switch (axis)
+            {
+                case "x":
+                    this.matriz.SetEscalacion(scaleValue, 0, 0);
+                    break;
+                case "y":
+                    this.matriz.SetEscalacion(0, scaleValue, 0);
+                    break;
+                case "z":
+                    this.matriz.SetEscalacion(0, 0, scaleValue);
+                    break;
+            }
+
         }
         public void rotate(string axis,float angle, Point transformacion)
         {
-            this.centroTransformacion = transformacion;
-            Matrix3 rotacion;
-            if (axis=="x")
-            {
-                rotacion = Matrix3.CreateRotationX(angle);
+            this.matriz.SetCentroAcarreado(transformacion.X, transformacion.Y, transformacion.Z);
+            switch (axis) {
+                case "x":
+                    this.matriz.SetRotacion(angle, 0, 0);
+                    break;
+                case "y":
+                    this.matriz.SetRotacion(0, angle, 0);
+                    break;
+                case "z":
+                    this.matriz.SetRotacion(0, 0, angle);
+                    break;          
             }
-            else
-            {
-                if(axis=="y")
-                {
-                    rotacion= Matrix3.CreateRotationY(angle);
-                }
-                else
-                {
-                    rotacion=Matrix3.CreateRotationZ(angle);
-                }
-            }
-            this.transformacion *= rotacion;
+                
+
         }
         public void rotate(string axis, float angle)
         {
-            this.centroTransformacion = this.centroC+this.centroAcarreado;
-            Matrix3 rotacion;
-            if (axis == "x")
+            this.matriz.SetCentroAcarreado(centroAcarreado.X, centroAcarreado.Y, centroAcarreado.Z);
+            switch (axis)
             {
-                rotacion = Matrix3.CreateRotationX(angle);
+                case "x":
+                    this.matriz.SetRotacion(angle, 0, 0);
+                    break;
+                case "y":
+                    this.matriz.SetRotacion(0, angle, 0);
+                    break;
+                case "z":
+                    this.matriz.SetRotacion(0, 0, angle);
+                    break;
             }
-            else
-            {
-                if (axis == "y")
-                {
-                    rotacion = Matrix3.CreateRotationY(angle);
-                }
-                else
-                {
-                    rotacion = Matrix3.CreateRotationZ(angle);
-                }
-            }
-            this.transformacion *= rotacion;
+        }
+
+        public void limpiar()
+        {
+            this.matriz.Limpiar();
         }
     }
 }

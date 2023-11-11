@@ -34,3 +34,27 @@ C:\Gabo\Universidad\10mo\Grafica\Proyectos actuales\Grafica_Proyecto1_2_2023\obj
 C:\Gabo\Universidad\10mo\Grafica\Proyectos actuales\Grafica_Proyecto1_2_2023\obj\Debug\ProGrafica.pdb
 C:\Gabo\Universidad\10mo\Grafica\Proyectos actuales\Grafica_Proyecto1_2_2023\bin\Debug\Newtonsoft.Json.dll
 C:\Gabo\Universidad\10mo\Grafica\Proyectos actuales\Grafica_Proyecto1_2_2023\bin\Debug\Newtonsoft.Json.xml
+D:\Yeri\Universidad\Angular\gabo\Grafica_Proyecto1_2_2023\obj\Debug\ProGrafica.exe
+D:\Yeri\Universidad\Angular\gabo\Grafica_Proyecto1_2_2023\obj\Debug\ProGrafica.pdb
+D:\Yeri\Universidad\Angular\gabo\Grafica_Proyecto1_2_2023\bin\Debug\ProGrafica.exe.config
+D:\Yeri\Universidad\Angular\gabo\Grafica_Proyecto1_2_2023\bin\Debug\ProGrafica.exe
+D:\Yeri\Universidad\Angular\gabo\Grafica_Proyecto1_2_2023\bin\Debug\ProGrafica.pdb
+D:\Yeri\Universidad\Angular\gabo\Grafica_Proyecto1_2_2023\bin\Debug\Newtonsoft.Json.dll
+D:\Yeri\Universidad\Angular\gabo\Grafica_Proyecto1_2_2023\bin\Debug\Newtonsoft.Json.xml
+D:\Yeri\Universidad\Angular\gabo\Grafica_Proyecto1_2_2023\bin\Debug\OpenTK.pdb
+D:\Yeri\Universidad\Angular\gabo\Grafica_Proyecto1_2_2023\bin\Debug\OpenTK.xml
+D:\Yeri\Universidad\Angular\gabo\Grafica_Proyecto1_2_2023\obj\Debug\ProGrafica.csproj.AssemblyReference.cache
+D:\Yeri\Universidad\Angular\gabo\Grafica_Proyecto1_2_2023\obj\Debug\ProGrafica.csproj.CoreCompileInputs.cache
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\bin\Debug\ProGrafica.exe.config
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\bin\Debug\ProGrafica.exe
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\bin\Debug\ProGrafica.pdb
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\bin\Debug\Newtonsoft.Json.dll
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\bin\Debug\Newtonsoft.Json.xml
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\bin\Debug\OpenTK.pdb
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\bin\Debug\OpenTK.xml
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\obj\Debug\ProGrafica.csproj.AssemblyReference.cache
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\obj\Debug\ProGrafica.csproj.SuggestedBindingRedirects.cache
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\obj\Debug\ProGrafica.csproj.CoreCompileInputs.cache
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\obj\Debug\ProGrafica.csproj.CopyComplete
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\obj\Debug\ProGrafica.exe
+C:\Gabo\Universidad\10mo\Grafica\Grafica_Proyecto1_2_2023\obj\Debug\ProGrafica.pdb

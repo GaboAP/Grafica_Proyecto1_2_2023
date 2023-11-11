@@ -19,16 +19,16 @@ namespace ProGrafica
         public Objeto()
         {
             this.partes = new Dictionary<string, Partes>();
-            this.centro = new Point(0.0, 0.0, 0.0);
-            this.centroEscenario= new Point(0.0, 0.0, 0.0);
+            this.centro = new Point(0, 0, 0);
+            this.centroEscenario= new Point(0, 0, 0);
         }
 
-        public Objeto(Double x, Double y, Double z, Dictionary<string, Partes> partes)
+        public Objeto(Point centro, Dictionary<string, Partes> partes)
         {
-            this.centro=new Point(x,y,z);
+            this.centro = centro;
             this.partes = partes;
-            this.centroEscenario = new Point(0.0, 0.0, 0.0);
-            setSceneCentro(new Point(0.0, 0.0, 0.0));
+            this.centroEscenario = new Point(0, 0, 0);
+            setSceneCentro(new Point(0, 0, 0));
         }
         public void setSceneCentro(Point centroEscenario)
         {
@@ -57,7 +57,7 @@ namespace ProGrafica
                 return null;
             }
         }
-        public Double x
+        public float x
         {
             get { return centro.X;}
         }
@@ -66,18 +66,18 @@ namespace ProGrafica
             get { return centro; }
             set { this.centro = value; }
         }
-        public Double centroY
+        public float centroY
         {
             get { return centro.Y;}
         }
-        public Double centroZ
+        public float centroZ
         {
             get { return centro.Z;}
         }
 
         public void draw()
         {
-            draw(new Point(0.0,0.0,0.0));
+            draw(new Point(0,0,0));
         }
         public void draw(Point sceneCentre)
         {
@@ -95,25 +95,25 @@ namespace ProGrafica
                 partes[nombre].UpdateVertices();
             }
         }
-        internal void translate(double x, double y, double z)
+        internal void translate(string eje, float translateValue)
         {
             foreach (Partes parte in partes.Values)
             {
-                parte.translate(x, y, z);
+                parte.translate(eje, translateValue);
             }
         }
-        public void scale(float scaleValue)
+        public void scale(string eje, float scaleValue)
         {
             foreach (Partes parte in partes.Values)
             {
-                parte.scale(scaleValue,centro+centroEscenario);
+                parte.scale(eje, scaleValue,centro+centroEscenario);
             }
         }
-        public void scale(float scaleValue, Point transformacion)
+        public void scale(string eje, float scaleValue, Point transformacion)
         {
             foreach (Partes parte in partes.Values)
             {
-                parte.scale(scaleValue, transformacion);
+                parte.scale(eje, scaleValue, transformacion);
             }
         }
         public void rotate(string eje,float angle)
@@ -128,6 +128,14 @@ namespace ProGrafica
             foreach (Partes parte in partes.Values)
             {
                 parte.rotate(eje, angle, transformacion);
+            }
+        }
+
+        public void limpiar()
+        {
+            foreach (Partes parte in partes.Values)
+            {
+                parte.limpiar();
             }
         }
     }
